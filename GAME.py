@@ -1,4 +1,3 @@
-﻿
 import pygame
 import time
 import random
@@ -13,9 +12,9 @@ b = 0 #Menu B
 d = 0 #Partie du menu joueur
 e = 0
 g = 0
-pva = 100
-pvb = 100
-f = 0
+pva = 100 #Nombre de point de vie du joueur
+pvb = 100 #Nombre de point de vie de l'ennemie
+f = 0 #Variable de l'attaque du joueur (l.74)
 #Taille de la fenêtre
 fenetre = pygame.display.set_mode((600, 480))
 
@@ -42,8 +41,8 @@ menu3 = pygame.image.load("menu3.png").convert_alpha()
 #Interfaces:
 barre = pygame.image.load("barre.png").convert_alpha()
 pv = pygame.image.load("pv.png").convert_alpha()
-pv = pygame.transform.scale(pv,(2,4))
-barre = pygame.transform.scale(barre,(208,10))
+pv = pygame.transform.scale(pv,(2,4)) #Mise à une taille plus visible des points de vie
+barre = pygame.transform.scale(barre,(208,10)) #Mise à une taille plus visible la barres des points de vie
 t = pygame.image.load("time.png").convert_alpha()
 pv2 = pygame.transform.scale(pv,(8,16))
 positionpv = pv.get_rect()
@@ -66,14 +65,12 @@ while pva>0 and pvb>0:
     while ph == 1:
         for event in pygame.event.get():
             if event.type == KEYDOWN:
-                if event.key == K_LEFT:
+                if event.key == K_LEFT: #Choix, dans le menu, l'action du joueur
                     a=a-1
-                    print(a)
                 if event.key == K_RIGHT:
                     a=a+1
-                    print(a)
                 if event.key == K_SPACE:
-                    if a == 0:
+                    if a == 0: #Attaque normal : Attaque au bon moment
                         g = 0
                         f = 0
                         fenetre.blit(pv2, positionpv)
@@ -92,11 +89,11 @@ while pva>0 and pvb>0:
                             pygame.display.update()
                             pygame.time.delay(5)
 
-                        positionpv = positionpv.move(-(2*f)-1,0)
+                        positionpv = positionpv.move(-(2*f)-1,0) #Remise en position pour la prochaine fois
                         f = f+1
                         elapsed_time = time.time() - start_time
 
-                        if f!=181:
+                        if f!=181: #Plus on appuie à temps, plus l'attaque est forte
                             e=e+1
                         if elapsed_time > (p-0.5) and elapsed_time < (p+0.5) and f!=180:
                             e=e+1
@@ -123,14 +120,14 @@ while pva>0 and pvb>0:
                              pygame.display.update()
                              pygame.time.delay(2)
                         pvb = pvb-(5*e)
-                    if a == 1:
+                    if a == 1: #Option Objet : Inutile mais réservé à cette fonction
                         pva = pva+5
 
-                    if a == 2:
+                    if a == 2: #Option Fuite : Inutile mais reservé à cette fonction
                         pva = pva
                     ph = 2
 
-            if a == 1:
+            if a == 1: #Menu
                 a = 1
                 fenetre.blit(fond, (0,0))
                 fenetre.blit(menu2, (0,0))
@@ -144,7 +141,7 @@ while pva>0 and pvb>0:
                 a = 0
                 fenetre.blit(fond,(0,0))
                 fenetre.blit(menu1, (0,0))
-
+#Réaffichage des éléments à l'écran
             fenetre.blit(player, position)
             fenetre.blit(player2, position2)
             fenetre.blit(barre, (20, 50))
